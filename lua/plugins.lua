@@ -41,11 +41,13 @@ require('lazy').setup({
   -- "gc" to comment visual regions/lines
   -- original: { 'numToStr/Comment.nvim', opts = {} },
   { 'numToStr/Comment.nvim' },
-
+  { 'nvim-tree/nvim-tree.lua', version = '*', lazy = false, dependencies = {
+    'nvim-tree/nvim-web-devicons',
+  } },
   -- See `:help gitsigns` to understand what the configuration keys do
   -- Adds git related signs to the gutter, as well as utilities for managing changes
   { 'lewis6991/gitsigns.nvim' },
-
+  { 'akinsho/bufferline.nvim', version = '*', dependencies = 'nvim-tree/nvim-web-devicons' },
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
   -- This is often very useful to both group configuration, as well as handle
@@ -584,7 +586,19 @@ require('lazy').setup({
 
   { 'olimorris/onedarkpro.nvim' }, -- Ensure it loads first
   { 'folke/tokyonight.nvim' },
+  { 'EdenEast/nightfox.nvim' },
+  { 'rebelot/kanagawa.nvim' },
+  { 'ellisonleao/gruvbox.nvim' },
+  { 'navarasu/onedark.nvim', name = 'onedarktwo' },
+  { 'AlexvZyl/nordic.nvim' },
   { 'rose-pine/neovim', name = 'rose-pine' },
+  {
+    'xiantang/darcula-dark.nvim',
+    priority = 1000,
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+    },
+  },
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
