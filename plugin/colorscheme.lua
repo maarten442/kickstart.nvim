@@ -96,12 +96,15 @@ require('kanagawa').setup {
     palette = { carpYellow = '#dfdcc6', peachRed = '#FF4D62' }, -- , syn = { keyword = '#FF5D62' } add this to the theme color
     theme = { wave = {}, lotus = {}, dragon = {}, all = { ui = { bg_gutter = 'none' } } },
   },
-  function()
-    return {
-      -- keyword = { carpYellow = '#dfdcc6' }, -- Replace luaFunction with the correct group
-      -- keyword = { fg = '#FFA500', italic = true },
-    }
-  end,
+  -- function(colors)
+  --   local theme = colors.theme
+  --   -- local theme_colors = colors.theme
+  --   -- Get the colors for the current theme
+  --   return {
+  --     Keyword = { fg = colors.theme.syn.special3 }, -- Replace luaFunction with the correct group
+  --     -- let us test this above
+  --   }
+  -- end,
   theme = 'wave', -- Load "wave" theme when 'background' option is not set
   background = { -- map the value of 'background' option to a theme
     dark = 'wave', -- try "dragon" !
