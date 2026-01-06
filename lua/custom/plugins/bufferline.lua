@@ -7,7 +7,7 @@ return {
   config = function()
     require('bufferline').setup {
       options = {
-        mode = 'tabs', -- set to "tabs" if you prefer separate tabs like VS Code
+        mode = 'buffers', -- show all buffers as tabs
         separator_style = 'slant', -- Can also be "thick", "thin", or "slope"
         always_show_bufferline = true,
         show_buffer_close_icons = true,
