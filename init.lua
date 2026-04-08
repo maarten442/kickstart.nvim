@@ -881,9 +881,9 @@ require('lazy').setup({
     config = function()
       ---@diagnostic disable-next-line: missing-fields
       require('kanagawa').setup {
+        theme = 'wave',
         styles = {
           comments = { italic = false }, -- Disable italics in comments
-          theme = 'wave',
         },
       }
 
