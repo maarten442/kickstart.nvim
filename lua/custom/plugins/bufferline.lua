@@ -1,19 +1,17 @@
--- Create this file at: lua/custom/plugins/bufferline.lua
-
 return {
   'akinsho/bufferline.nvim',
-  -- version = '*',
   dependencies = 'nvim-tree/nvim-web-devicons',
   config = function()
     require('bufferline').setup {
       options = {
-        mode = 'buffers', -- show all buffers as tabs
-        separator_style = 'slant', -- Can also be "thick", "thin", or "slope"
+        mode = 'buffers',
+        separator_style = 'thin',
         always_show_bufferline = true,
-        show_buffer_close_icons = true,
-        show_close_icon = true,
+        show_buffer_close_icons = false,
+        show_close_icon = false,
         color_icons = true,
-        diagnostics = 'nvim_lsp', -- Show diagnostic indicators from LSP if available
+        indicator = { style = 'underline' },
+        diagnostics = 'nvim_lsp',
         diagnostics_indicator = function(count, level)
           local icon = level:match 'error' and ' ' or ' '
           return ' ' .. icon .. count
@@ -21,7 +19,7 @@ return {
         offsets = {
           {
             filetype = 'neo-tree',
-            text = 'File Explorer',
+            text = 'Explorer',
             text_align = 'center',
             separator = true,
           },
@@ -29,11 +27,8 @@ return {
       },
     }
 
-    -- Add keybindings for navigating buffers
     vim.keymap.set('n', '<Tab>', '<cmd>BufferLineCycleNext<CR>', { desc = 'Next buffer' })
     vim.keymap.set('n', '<S-Tab>', '<cmd>BufferLineCyclePrev<CR>', { desc = 'Previous buffer' })
-
-    -- More intuitive movements between buffers (like browser tabs)
     vim.keymap.set('n', '<leader>1', '<cmd>BufferLineGoToBuffer 1<CR>', { desc = 'Go to buffer 1' })
     vim.keymap.set('n', '<leader>2', '<cmd>BufferLineGoToBuffer 2<CR>', { desc = 'Go to buffer 2' })
     vim.keymap.set('n', '<leader>3', '<cmd>BufferLineGoToBuffer 3<CR>', { desc = 'Go to buffer 3' })
@@ -43,8 +38,6 @@ return {
     vim.keymap.set('n', '<leader>7', '<cmd>BufferLineGoToBuffer 7<CR>', { desc = 'Go to buffer 7' })
     vim.keymap.set('n', '<leader>8', '<cmd>BufferLineGoToBuffer 8<CR>', { desc = 'Go to buffer 8' })
     vim.keymap.set('n', '<leader>9', '<cmd>BufferLineGoToBuffer 9<CR>', { desc = 'Go to buffer 9' })
-
-    -- Close the current buffer
-    vim.keymap.set('n', '<leader>bc', '<cmd>bdelete<CR>', { desc = 'Close buffer' })
+    vim.keymap.set('n', '<leader>bc', '<cmd>Bdelete<CR>', { desc = 'Close buffer' })
   end,
 }

@@ -156,6 +156,10 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+-- Cleaner UI characters
+vim.opt.fillchars = { eob = ' ', vert = '│', horiz = '─', horizup = '┴', horizdown = '┬', vertleft = '┤', vertright = '├', verthoriz = '┼' }
+vim.opt.laststatus = 3 -- global statusline
+
 -- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
 -- instead raise a dialog asking if you wish to save the current file(s)
 -- See `:help 'confirm'`
@@ -270,11 +274,11 @@ require('lazy').setup({
     'lewis6991/gitsigns.nvim',
     opts = {
       signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
+        add = { text = '▎' },
+        change = { text = '▎' },
+        delete = { text = '' },
+        topdelete = { text = '' },
+        changedelete = { text = '▎' },
       },
     },
   },
@@ -342,6 +346,8 @@ require('lazy').setup({
         { '<leader>s', group = '[S]earch' },
         { '<leader>t', group = '[T]oggle' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        { '<leader>g', group = '[G]it' },
+        { '<leader>b', group = '[B]uffer' },
       },
     },
   },
@@ -402,12 +408,16 @@ require('lazy').setup({
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         --
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        --   },
-        -- },
-        -- pickers = {}
+        defaults = {
+          file_ignore_patterns = { '%.lock', 'node_modules/', '__pycache__/', '%.pyc', '%.git/' },
+          path_display = { 'truncate' },
+        },
+        pickers = {
+          find_files = {
+            -- Only match against the filename, not the full path
+            find_command = { 'rg', '--files', '--sortr=modified' },
+          },
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -882,9 +892,49 @@ require('lazy').setup({
       ---@diagnostic disable-next-line: missing-fields
       require('kanagawa').setup {
         theme = 'wave',
+        dimInactive = true,
+        globalStatus = true,
         styles = {
-          comments = { italic = false }, -- Disable italics in comments
+          comments = { italic = false },
         },
+        colors = {
+          theme = {
+            all = {
+              ui = {
+                bg_gutter = 'none',
+              },
+            },
+          },
+        },
+        overrides = function(colors)
+          local theme = colors.theme
+          return {
+            -- Cleaner floats and popups
+            NormalFloat = { bg = theme.ui.bg_p1 },
+            FloatBorder = { bg = theme.ui.bg_p1, fg = theme.ui.shade0 },
+            FloatTitle = { bg = 'none' },
+            -- Cleaner telescope
+            TelescopeNormal = { bg = theme.ui.bg_p1 },
+            TelescopeBorder = { bg = theme.ui.bg_p1, fg = theme.ui.bg_p1 },
+            TelescopePromptNormal = { bg = theme.ui.bg_m1 },
+            TelescopePromptBorder = { bg = theme.ui.bg_m1, fg = theme.ui.bg_m1 },
+            TelescopePromptTitle = { bg = theme.syn.special1, fg = theme.ui.bg_m1 },
+            TelescopeResultsTitle = { bg = theme.ui.bg_p1, fg = theme.ui.bg_p1 },
+            TelescopePreviewTitle = { bg = theme.syn.special2, fg = theme.ui.bg },
+            -- Cleaner window separator
+            WinSeparator = { fg = theme.ui.bg_p2 },
+            -- Subtle cursorline
+            CursorLine = { bg = theme.ui.bg_p1 },
+            -- Noice cmdline
+            NoiceCmdlinePopup = { bg = theme.ui.bg_p1 },
+            NoiceCmdlinePopupBorder = { bg = theme.ui.bg_p1, fg = theme.ui.bg_p1 },
+            NoiceCmdlinePopupTitle = { fg = theme.syn.special1 },
+            NoicePopupmenu = { bg = theme.ui.bg_p1 },
+            NoicePopupmenuBorder = { bg = theme.ui.bg_p1, fg = theme.ui.bg_p1 },
+            -- Indent scope
+            IblScope = { fg = theme.ui.bg_p2 },
+          }
+        end,
       }
 
       -- Load the colorscheme here.
@@ -915,23 +965,7 @@ require('lazy').setup({
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
 
-      -- Simple and easy statusline.
-      --  You could remove this setup call if you don't like it,
-      --  and try some other statusline plugin
-      local statusline = require 'mini.statusline'
-      -- set use_icons to true if you have a Nerd Font
-      statusline.setup { use_icons = vim.g.have_nerd_font }
-
-      -- You can configure sections in the statusline by overriding their
-      -- default behavior. For example, here we set the section for
-      -- cursor location to LINE:COLUMN
-      ---@diagnostic disable-next-line: duplicate-set-field
-      statusline.section_location = function()
-        return '%2l:%-2v'
-      end
-
-      -- ... and there is more!
-      --  Check out: https://github.com/echasnovski/mini.nvim
+      -- statusline handled by lualine.nvim (see custom/plugins/lualine.lua)
     end,
   },
   { -- Highlight, edit, and navigate code
